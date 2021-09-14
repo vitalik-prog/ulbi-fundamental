@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Counter, Input, ClassCounter, PostList } from './components'
+import { Counter, Input, ClassCounter, PostList, CreatePost } from './components'
 import './App.css'
 
 function App() {
@@ -10,12 +10,16 @@ function App() {
     {id: 3, title: 'JavaScript 3', body: 'Post description 3'}
   ])
 
+  const handleAddPost = (postData) => {
+    setPosts([ ...posts, { id: posts.length + 1, ...postData }])
+  }
 
   return (
     <div className="App">
       <Counter />
       <ClassCounter />
       <Input />
+      <CreatePost addNewPost={handleAddPost} />
       <PostList posts={posts} title={'List of posts'} />
     </div>
   );
