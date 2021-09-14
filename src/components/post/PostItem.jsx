@@ -1,13 +1,13 @@
 import styles from './styles.module.css';
 
-const Post = () => {
+const Post = (props) => {
 
   return (
     <div className={styles.post}>
       <div className={styles.post__content}>
-        <strong>1. Javascript</strong>
+        <strong>{props.post.id}. {props.post.title}</strong>
         <div>
-          JavaScript - programming language 
+          {props.post.body}
         </div>
       </div>
       <div className={styles.post__btns}>
