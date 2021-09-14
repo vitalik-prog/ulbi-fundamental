@@ -7,7 +7,7 @@ function App() {
       <Counter />
       <ClassCounter />
       <Input />
-      <Post />
+      <Post post={{id: 1, title: 'JavaScript', body: 'Post description'}}/>
     </div>
   );
 }
