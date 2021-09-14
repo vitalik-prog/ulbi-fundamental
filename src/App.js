@@ -1,4 +1,5 @@
-import { Counter, Input, ClassCounter } from './components'
+import { Counter, Input, ClassCounter, Post } from './components'
+import './App.css'
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <Counter />
       <ClassCounter />
       <Input />
+      <Post />
     </div>
   );
 }
