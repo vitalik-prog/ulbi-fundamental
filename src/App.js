@@ -1,7 +1,7 @@
 import {useMemo, useState} from "react";
 import {Counter, ClassCounter, PostList, CreatePost, Sort, Filtration} from './components'
-import './App.css'
 import {Button, Modal} from "./components/common";
+import './App.css'
 
 function App() {
 
