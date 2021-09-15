@@ -1,6 +1,5 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Button, Input } from '../common';
-import styles from './styles.module.css';
 
 const CreatePost = ({ addNewPost }) => {
   const [post, setPost] = useState({ title: '', body: '' })

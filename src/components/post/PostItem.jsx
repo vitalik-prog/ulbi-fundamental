@@ -1,3 +1,4 @@
+import { Button } from '../common';
 import styles from './styles.module.css';
 
 const PostItem = (props) => {
@@ -11,7 +12,7 @@ const PostItem = (props) => {
         </div>
       </div>
       <div className={styles.post__btns}>
-        <button>Delete</button>
+        <Button onClick={() => props.deletePost(props.post.id)}>Delete</Button>
       </div>
     </div>
   );
