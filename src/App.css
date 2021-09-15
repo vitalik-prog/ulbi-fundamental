@@ -12,3 +12,11 @@
 .App {
   width: 800px;
 }
+
+.noPosts {
+  text-align: center;
+}
+
+.separator {
+  margin: 15px 0;
+}
