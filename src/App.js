@@ -1,6 +1,7 @@
 import {useMemo, useState} from "react";
 import {Counter, ClassCounter, PostList, CreatePost, Sort, Filtration} from './components'
 import './App.css'
+import {Button, Modal} from "./components/common";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   ])
   const [selectedSort, setSelectedSort] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const sortedPosts = useMemo(() => {
     if (selectedSort) {
@@ -26,6 +28,7 @@ function App() {
 
   const handleAddPost = (postData) => {
     setPosts([...posts, {id: posts.length + 1, ...postData}])
+    handleModalOpen()
   }
 
   const handleDeletePost = (postId) => {
@@ -40,11 +43,25 @@ function App() {
     setSearchQuery(e.target.value)
   }
 
+  const handleModalOpen = () => {
+    setIsModalVisible(!isModalVisible)
+  }
+
   return (
     <div className="App">
       <Counter/>
       <ClassCounter/>
-      <CreatePost addNewPost={handleAddPost}/>
+      <Button
+        onClick={handleModalOpen}
+      >
+        Add post
+      </Button>
+      <Modal
+        visible={isModalVisible}
+        closeModal={handleModalOpen}
+      >
+        <CreatePost addNewPost={handleAddPost}/>
+      </Modal>
       <hr className={'separator'}/>
       <Filtration
         searchQuery={searchQuery}
