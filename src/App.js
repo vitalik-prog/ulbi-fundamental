@@ -1,30 +1,23 @@
-import {useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {Counter, ClassCounter, PostList, CreatePost, Sort, Filtration} from './components'
 import {Button, Modal} from "./components/common";
+import {useSortedAndFilteredPosts} from "./hooks/usePosts";
+import PostsApi from "./services/posts.api.service";
 import './App.css'
 
 function App() {
 
-  const [posts, setPosts] = useState([
-    {id: 1, title: 'JavaScript 3', body: 'Post description 1'},
-    {id: 2, title: 'JavaScript 2', body: 'Post description 2'},
-    {id: 3, title: 'JavaScript 1', body: 'Post description 3'}
-  ])
+  const [posts, setPosts] = useState([])
   const [selectedSort, setSelectedSort] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const sortedPosts = useMemo(() => {
-    if (selectedSort) {
-      const copiedPosts = [...posts];
-      return copiedPosts.sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
-    }
-    return posts
-  }, [selectedSort, posts])
+  useEffect(async () => {
+    const posts = await PostsApi.getAllPosts()
+    setPosts(posts)
+  }, [])
 
-  const sortedAndSearchedPosts = useMemo(() => {
-    return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery.toLowerCase()))
-  }, [searchQuery, sortedPosts])
+  const sortedAndSearchedPosts = useSortedAndFilteredPosts(posts, selectedSort, searchQuery)
 
   const handleAddPost = (postData) => {
     setPosts([...posts, {id: posts.length + 1, ...postData}])
