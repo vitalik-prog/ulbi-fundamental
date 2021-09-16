@@ -20,3 +20,8 @@
 .separator {
   margin: 15px 0;
 }
+.loader_wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}

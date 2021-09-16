@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {Counter, ClassCounter, PostList, CreatePost, Sort, Filtration} from './components'
-import {Button, Modal} from "./components/common";
+import {Button, Modal, Loader} from "./components/common";
 import {useSortedAndFilteredPosts} from "./hooks/usePosts";
 import PostsApi from "./services/posts.api.service";
 import './App.css'
+import {useFetching} from "./hooks/useFetching";
 
 function App() {
 
@@ -12,9 +13,13 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  useEffect(async () => {
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const posts = await PostsApi.getAllPosts()
     setPosts(posts)
+  })
+
+  useEffect(() => {
+    fetchPosts()
   }, [])
 
   const sortedAndSearchedPosts = useSortedAndFilteredPosts(posts, selectedSort, searchQuery)
@@ -55,7 +60,7 @@ function App() {
       >
         <CreatePost addNewPost={handleAddPost}/>
       </Modal>
-      <hr className={'separator'}/>
+      <hr className='separator'/>
       <Filtration
         searchQuery={searchQuery}
         onSearch={handleSearch}
@@ -64,16 +69,21 @@ function App() {
         selectedSort={selectedSort}
         handleSortPosts={handleSortPosts}
       />
-      {sortedAndSearchedPosts.length !== 0
+      {postError && <div>Some error happened!</div>}
+      {isPostsLoading
         ? (
-          <PostList
-            posts={sortedAndSearchedPosts}
-            title={'List of posts'}
-            handleDeletePost={handleDeletePost}
-          />
+          <div className='loader_wrapper'><Loader /></div>
         ) : (
-          <h2 className={'noPosts'}>There isn't any posts here.</h2>
-        )}
+          sortedAndSearchedPosts.length !== 0
+            ? (
+              <PostList
+                posts={sortedAndSearchedPosts}
+                title='List of posts'
+                handleDeletePost={handleDeletePost}
+              />
+            ) : (
+              <h2 className={'noPosts'}>There isn't any posts here.</h2>
+            ))}
     </div>
   );
 }
