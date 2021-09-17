@@ -1,6 +1,8 @@
 export { default as Counter } from './counters/Counter'
 export { default as ClassCounter } from './counters/ClassCounter'
+export { default as CountersPage } from './counters/CountersPage'
 export { default as PostList } from './post/PostList'
 export { default as CreatePost } from './post/CreatePostForm'
 export { default as Sort } from './post/Sort'
 export { default as Filtration } from './post/Filtration'
+export { default as PostsPage } from './post/PostsPage'
