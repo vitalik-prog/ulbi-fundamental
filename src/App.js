@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import {Counter, ClassCounter, PostList, CreatePost, Sort, Filtration} from './components'
-import {Button, Modal, Loader} from "./components/common";
+import {Button, Modal, Loader, Pagination} from "./components/common";
 import {useSortedAndFilteredPosts} from "./hooks/usePosts";
 import PostsApi from "./services/posts.api.service";
-import './App.css'
 import {useFetching} from "./hooks/useFetching";
+import {getPagesCount} from "./helpers/getPagesCount";
+import {usePagination} from "./hooks/usePagination";
+import './App.css'
 
 function App() {
 
@@ -12,17 +14,26 @@ function App() {
   const [selectedSort, setSelectedSort] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
-
+  const [totalPages, setTotalPages] = useState(0)
+  const [limitOfPosts, setLimitOfPosts] = useState(10)
+  const [page, setPage] = useState(1)
+  const [paginationPages, setPaginationPages] = useState([])
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
-    const posts = await PostsApi.getAllPosts()
-    setPosts(posts)
+    const response = await PostsApi.getAllPosts(limitOfPosts, page)
+    setPosts(response.data)
+    const totalPostsCount = response.headers['x-total-count']
+    setTotalPages(getPagesCount(totalPostsCount, limitOfPosts))
   })
 
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [page])
 
   const sortedAndSearchedPosts = useSortedAndFilteredPosts(posts, selectedSort, searchQuery)
+  const pagesNumbers = usePagination(totalPages)
+  if (pagesNumbers.length > 0) {
+    setPaginationPages(pagesNumbers)
+  }
 
   const handleAddPost = (postData) => {
     setPosts([...posts, {id: posts.length + 1, ...postData}])
@@ -43,6 +54,10 @@ function App() {
 
   const handleModalOpen = () => {
     setIsModalVisible(!isModalVisible)
+  }
+
+  const goToPage = (pageNumber) => {
+    setPage(pageNumber)
   }
 
   return (
@@ -84,6 +99,7 @@ function App() {
             ) : (
               <h2 className={'noPosts'}>There isn't any posts here.</h2>
             ))}
+            <Pagination pagesNumbers={paginationPages} goToPage={goToPage} activePage={page} />
     </div>
   );
 }
