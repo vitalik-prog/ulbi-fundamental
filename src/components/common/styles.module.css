@@ -50,3 +50,12 @@
     transform: rotate(360deg) scale(1.2);
   }
 }
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+.activePage {
+  font-weight: bold;
+  background-color: turquoise;
+}
