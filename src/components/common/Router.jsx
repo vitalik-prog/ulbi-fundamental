@@ -2,6 +2,7 @@ import React from 'react';
 import {Route, Switch} from "react-router-dom";
 import {Homepage, Notfound} from "./index";
 import {CountersPage, PostsPage} from "..";
+import PostPage from "../post/PostPage";
 
 const Router = () => {
   return (
@@ -12,8 +13,11 @@ const Router = () => {
       <Route path='/counters'>
         <CountersPage/>
       </Route>
-      <Route path='/posts'>
+      <Route exact path='/posts'>
         <PostsPage/>
+      </Route>
+      <Route exact path={`/posts/:id`}>
+        <PostPage/>
       </Route>
       <Route path='*'>
         <Notfound/>

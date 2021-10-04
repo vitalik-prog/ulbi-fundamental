@@ -10,3 +10,10 @@
 .h1 {
   text-align: center;
 }
+.post__btns {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.post__btns button:last-child {
+  margin-left: 5px;
+}
