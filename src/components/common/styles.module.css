@@ -59,3 +59,16 @@
   font-weight: bold;
   background-color: turquoise;
 }
+.navbar {
+  height: 100px;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  background-color: lightgray;
+}
+.navbar__links {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
