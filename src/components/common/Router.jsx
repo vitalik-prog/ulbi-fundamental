@@ -1,28 +1,33 @@
 import React from 'react';
-import {Route, Switch} from "react-router-dom";
-import {Homepage, Notfound} from "./index";
-import {CountersPage, PostsPage} from "..";
-import PostPage from "../post/PostPage";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {privateRoutes, publicRoutes} from "../../routes";
 
 const Router = () => {
+  const isAuth = true
   return (
-    <Switch>
-      <Route exact path='/'>
-        <Homepage/>
-      </Route>
-      <Route path='/counters'>
-        <CountersPage/>
-      </Route>
-      <Route exact path='/posts'>
-        <PostsPage/>
-      </Route>
-      <Route exact path={`/posts/:id`}>
-        <PostPage/>
-      </Route>
-      <Route path='*'>
-        <Notfound/>
-      </Route>
-    </Switch>
+    isAuth
+      ?
+      <Switch>
+        <Redirect from='/login' to='/'/>
+        {privateRoutes.map(route =>
+          <Route
+            path={route.path}
+            exact={route.exact}
+            component={route.component}
+          />
+        )}
+      </Switch>
+      :
+      <Switch>
+        {publicRoutes.map(route =>
+          <Route
+            path={route.path}
+            exact={route.exact}
+            component={route.component}
+          />
+        )}
+        <Redirect to='/login'/>
+      </Switch>
   );
 };
 
