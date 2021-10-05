@@ -17,3 +17,6 @@
 .post__btns button:last-child {
   margin-left: 5px;
 }
+.comment_row {
+  margin-bottom: 10px;
+}
