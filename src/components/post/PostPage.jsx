@@ -37,7 +37,7 @@ const PostPage = () => {
           <div>
             <h3>Comments:</h3>
             {comments.map(comment =>
-              <div className={styles.comment_row}>
+              <div className={styles.comment_row} key={comment.id}>
                 <h5>{comment.email}</h5>
                 <p>{comment.body}</p>
               </div>
